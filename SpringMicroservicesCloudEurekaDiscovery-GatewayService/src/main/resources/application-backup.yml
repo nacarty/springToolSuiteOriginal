@@ -1,0 +1,22 @@
+server:
+   port: 8080
+eureka:
+   client:
+     service-url:
+         defaultZone: http://localhost:8083/eureka
+ 
+spring:         
+  application:
+    name: cloud-gateway-service
+    cloud: 
+    gateway: 
+		     routes:
+			      - id: firstModule
+			  uri: lb://first-service
+			  predicates:
+			  - Path=/firstservice/**
+			  filters:
+			     - name: hystrix
+			       args: 
+			         name: fallbackCommand
+			         fallbackUri: forward/fallback/message
